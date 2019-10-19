@@ -1,0 +1,13 @@
+Start and stop MongoDB daemon:
+brew services start mongodb-community
+brew services stop mongodb-community
+
+En un altre terminal obrir client:
+mongo
+
+db.twitter_bda.count() --> compta número de registres que hem capturar de twitter
+db.twitter_bda.find() --> mostra collection twitter_bda (taula amb info dels camps que hem capturat de twitter)
+show collections --> mostra les collections que hi ha a la BD (taules)
+db.twitter_dba.drop() --> esborra collection twitter_dba
+
+
