@@ -11,10 +11,10 @@ MONGO_HOST= 'mongodb://localhost/test'  # assuming you have mongoDB installed lo
 WORDS = ['#agriculture','#agricultura'] # This is an OR relation
 
 # Insert your keys here -- ovalls
-CONSUMER_KEY = "hfxWqCmbkwPWrba3P2yGT57kJ"
-CONSUMER_SECRET = "sSMTbce7GJ3TWcGOM1nB2PKVJqHaJV3wScBSJOUo3jkb7gXoin"
-ACCESS_TOKEN = "306454292-MSr2J8jvqw5mx9Kv2Z7L3kUOFZXa6OkwIkAeksFs"
-ACCESS_TOKEN_SECRET = "sHPSGYEygrxlxufRKs9JYdFI10PgQQVh1D47aX3GFWoVE"
+#CONSUMER_KEY = ""
+#CONSUMER_SECRET = ""
+#ACCESS_TOKEN = ""
+#ACCESS_TOKEN_SECRET = ""
 
 
 class StreamListener(tweepy.StreamListener):    
