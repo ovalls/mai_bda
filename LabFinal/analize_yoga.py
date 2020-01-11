@@ -6,6 +6,22 @@ from collections import Counter
 import numpy as np
 import operator
 import nltk
+import unicodedata as ud
+
+### to define whether a string is in latin/roman chars ###
+# https://stackoverflow.com/questions/3094498/how-can-i-check-if-a-python-unicode-string-contains-non-western-letters
+latin_letters= {}
+
+def is_latin(uchr):
+    try: return latin_letters[uchr]
+    except KeyError:
+         return latin_letters.setdefault(uchr, 'LATIN' in ud.name(uchr))
+
+def only_roman_chars(unistr):
+    return all(is_latin(uchr)
+           for uchr in unistr
+           if uchr.isalpha()) # isalpha suggested by John Machin
+###
 
 # Establish connection with database
 client = MongoClient()
@@ -132,8 +148,10 @@ for t in my_tweets:
 	for e in t['entities']['hashtags']:
 		h = e['text']
 		#print('h: {}'.format(h))
-		if h.lower() != 'yoga':
-			hashList.append(h.lower())
+		# paraules que no siguin yoga i que tinguin alguna vocal = escrites en llengües q podem entendre
+		if only_roman_chars(h.lower()):
+			if h.lower() != 'yoga':
+				hashList.append(h.lower())
 
 D = Counter(hashList)
 subset = dict(D.most_common(30))
@@ -168,7 +186,8 @@ for t in my_tweets:
 				w = w[0:len(w)-1]
 			if len(w) > 3 and w[-1] == '.' and w[-2] == '.' and w[-3] == '.':	# acaba en ...
 				w = w[0:len(w)-3]
-			if w.lower() != 'yoga':
+			if 'yoga' not in w.lower():
+			#if w.lower() != 'yoga' and w.lower() != 'yoga.':
 				hashList.append(w.lower())
 
 # em quedo amb les paraules que són noms (NLTK)
@@ -208,3 +227,10 @@ plt.title('Second pack of 25 most common words from text of tweets captured in e
 plt.tight_layout()
 plt.show()
 
+# ----------- Horizontal Bar Plot (all 50 words) ------------------------
+pos = range(len(sorted_subset))
+plt.barh(pos, [val[1] for val in sorted_subset], align = 'center', color = 'yellowgreen') # + a dalt - a baix
+plt.yticks(pos, [val[0] for val in sorted_subset])
+plt.title('Top 50 most common words from text of tweets captured in english')
+plt.tight_layout()
+plt.show()
